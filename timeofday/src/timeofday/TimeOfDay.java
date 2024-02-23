@@ -6,7 +6,16 @@ package timeofday;
 //    b. De rauwe abstractetoestandsruimte definiëren: de inspectoren (= getters) declareren
 //    c. De geldige abstractetoestandsruimte definiëren: de abstractetoestandsinvarianten definiëren
 //    d. De constructoren en mutatoren declareren
+//    e. De constructoren en mutatoren documenteren: precondities en postcondities (resultaat en neveneffecten (= nieuwe toestand gewijzigde objecten))
 // 2. De abstractie implementeren in termen van Java-constructies: velden en method/constructor bodies toevoegen.
+//    a. Een representatie kiezen
+//       i. Rauwe concretetoestandsruimte definiëren = velden introduceren
+//       ii. Geldige concretetoestandsruimte definiëren = concretetoestandsinvarianten noteren (= @invar-clausules bij de velden)
+//       iii. Abstractierelatie definiëren = getters implementeren
+//       Sanity checks:
+//       1) De getters mogen voor geen enkele geldige concrete toestand crashen
+//       2) De getters moeten elke geldige concrete toestand afbeelden op een geldige abstracte toestand
+//    b. Implementeren van (= code schrijven voor) de constructoren en mutatoren
 
 /**
  * Elke instantie van deze klasse slaat een tijdstip op, gegeven door een aantal uren sinds middernacht en een aantal minuten binnen het uur.
@@ -17,11 +26,18 @@ package timeofday;
  */
 public class TimeOfDay {
 	
-	public int getHours() { throw new RuntimeException("Not yet implemented"); }
+	/**
+	 * @invar | 0 <= hours && hours <= 23
+	 * @invar | 0 <= minutes && minutes <= 59
+	 */
+	private int hours;
+	private int minutes;
 	
-	public int getMinutes() { throw new RuntimeException("Not yet implemented"); }
+	public int getHours() { return hours; }
 	
-	public int getMinutesSinceMidnight() { throw new RuntimeException("Not yet implemented"); }
+	public int getMinutes() { return minutes; }
+	
+	public int getMinutesSinceMidnight() { return hours * 60 + minutes; }
 
 	/**
 	 * Initialiseert het nieuwe object met de gegeven uren en minuten.
@@ -32,7 +48,10 @@ public class TimeOfDay {
 	 * @post | getHours() == initialHours
 	 * @post | getMinutes() == initialMinutes
 	 */
-	public TimeOfDay(int initialHours, int initialMinutes) { throw new RuntimeException("Not yet implemented"); }
+	public TimeOfDay(int initialHours, int initialMinutes) {
+		hours = initialHours;
+		minutes = initialMinutes;
+	}
 	
 	/**
 	 * Stelt de uren van dit object in op de gegeven uren.
@@ -44,9 +63,9 @@ public class TimeOfDay {
 	 * @post | getHours() == newHours
 	 * @post | getMinutes() == old(getMinutes())
 	 */
-	public void setHours(int newHours) { throw new RuntimeException("Not yet implemented"); }
+	public void setHours(int newHours) { hours = newHours; }
 	
-	public void setMinutes(int newMinutes) { throw new RuntimeException("Not yet implemented"); }
+	public void setMinutes(int minutes) { this.minutes = minutes; }
 	
 	/**
 	 * Stelt de minuten sinds middernacht in op de gegeven waarde.
@@ -57,6 +76,9 @@ public class TimeOfDay {
 	 * 
 	 * @post | getMinutesSinceMidnight() == newMinutesSinceMidnight
 	 */
-	public void setMinutesSinceMidnight(int newMinutesSinceMidnight) { throw new RuntimeException("Not yet implemented"); }
+	public void setMinutesSinceMidnight(int newMinutesSinceMidnight) {
+		hours = newMinutesSinceMidnight / 60;
+		minutes = newMinutesSinceMidnight % 60;
+	}
 	
 }
