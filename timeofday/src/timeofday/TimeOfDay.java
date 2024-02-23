@@ -9,11 +9,13 @@ package timeofday;
 // 2. De abstractie implementeren in termen van Java-constructies: velden en method/constructor bodies toevoegen.
 
 /**
- * Elke instantie van deze klasse slaat een tijdstip op, gegeven door een aantal uren sinds middernacht en een aantal minuten binnen het uur.
+ * Elke instantie van deze klasse stelt een tijdstip voor, gegeven door een aantal uren sinds middernacht en een aantal minuten binnen het uur.
  * 
  * @invar | getMinutesSinceMidnight() == getHours() * 60 + getMinutes()
  * @invar | 0 <= getHours() && getHours() <= 23
  * @invar | 0 <= getMinutes() && getMinutes() <= 59
+ * 
+ * @immutable
  */
 public class TimeOfDay {
 	
@@ -49,40 +51,15 @@ public class TimeOfDay {
 	}
 	
 	/**
-	 * Stelt de uren van dit object in op de gegeven uren.
+	 * Returns a new TimeOfDay object whose minutes are the given minutes and whose hours are this object's hours.
 	 * 
-	 * @throws IllegalArgumentException | !(0 <= newHours && newHours <= 23)
-	 * 
-	 * @mutates | this
-	 * 
-	 * @post | getHours() == newHours
-	 * @post | getMinutes() == old(getMinutes())
+	 * @pre | 0 <= newMinutes && newMinutes < 60
+	 * @post | result != null
+	 * @post | result.getHours() == getHours()
+	 * @post | result.getMinutes() == newMinutes 
 	 */
-	public void setHours(int newHours) {
-		if (newHours < 0)
-			throw new IllegalArgumentException("`newHours` is less than 0");
-		if (23 < newHours)
-			throw new IllegalArgumentException("`newHours` is greater than 23");
-		
-		minutesSinceMidnight = newHours * 60 + getMinutes();
-	}
-	
-	public void setMinutes(int newMinutes) {
-		minutesSinceMidnight -= getMinutes();
-		minutesSinceMidnight += newMinutes;
-	}
-	
-	/**
-	 * Stelt de minuten sinds middernacht in op de gegeven waarde.
-	 * 
-	 * @pre | 0 <= newMinutesSinceMidnight && newMinutesSinceMidnight < 24 * 60
-	 * 
-	 * @mutates | this
-	 * 
-	 * @post | getMinutesSinceMidnight() == newMinutesSinceMidnight
-	 */
-	public void setMinutesSinceMidnight(int newMinutesSinceMidnight) {
-		minutesSinceMidnight = newMinutesSinceMidnight;
+	public TimeOfDay withMinutes(int newMinutes) {
+		throw new RuntimeException("Not yet implemented");
 	}
 	
 }
