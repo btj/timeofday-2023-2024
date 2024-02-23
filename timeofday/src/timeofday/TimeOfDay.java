@@ -17,11 +17,16 @@ package timeofday;
  */
 public class TimeOfDay {
 	
-	public int getHours() { throw new RuntimeException("Not yet implemented"); }
+	/**
+	 * @invar | 0 <= minutesSinceMidnight && minutesSinceMidnight < 24 * 60
+	 */
+	private int minutesSinceMidnight;
 	
-	public int getMinutes() { throw new RuntimeException("Not yet implemented"); }
+	public int getHours() { return minutesSinceMidnight / 60; }
 	
-	public int getMinutesSinceMidnight() { throw new RuntimeException("Not yet implemented"); }
+	public int getMinutes() { return minutesSinceMidnight % 60; }
+	
+	public int getMinutesSinceMidnight() { return minutesSinceMidnight; }
 
 	/**
 	 * Initialiseert het nieuwe object met de gegeven uren en minuten.
@@ -32,7 +37,9 @@ public class TimeOfDay {
 	 * @post | getHours() == initialHours
 	 * @post | getMinutes() == initialMinutes
 	 */
-	public TimeOfDay(int initialHours, int initialMinutes) { throw new RuntimeException("Not yet implemented"); }
+	public TimeOfDay(int initialHours, int initialMinutes) { 
+		minutesSinceMidnight = initialHours * 60 + initialMinutes;
+	}
 	
 	/**
 	 * Stelt de uren van dit object in op de gegeven uren.
@@ -44,9 +51,12 @@ public class TimeOfDay {
 	 * @post | getHours() == newHours
 	 * @post | getMinutes() == old(getMinutes())
 	 */
-	public void setHours(int newHours) { throw new RuntimeException("Not yet implemented"); }
+	public void setHours(int newHours) { minutesSinceMidnight = newHours * 60 + getMinutes(); }
 	
-	public void setMinutes(int newMinutes) { throw new RuntimeException("Not yet implemented"); }
+	public void setMinutes(int newMinutes) {
+		minutesSinceMidnight -= getMinutes();
+		minutesSinceMidnight += newMinutes;
+	}
 	
 	/**
 	 * Stelt de minuten sinds middernacht in op de gegeven waarde.
@@ -57,6 +67,8 @@ public class TimeOfDay {
 	 * 
 	 * @post | getMinutesSinceMidnight() == newMinutesSinceMidnight
 	 */
-	public void setMinutesSinceMidnight(int newMinutesSinceMidnight) { throw new RuntimeException("Not yet implemented"); }
+	public void setMinutesSinceMidnight(int newMinutesSinceMidnight) {
+		minutesSinceMidnight = newMinutesSinceMidnight;
+	}
 	
 }
