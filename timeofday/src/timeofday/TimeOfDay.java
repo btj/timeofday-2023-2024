@@ -31,27 +31,41 @@ public class TimeOfDay {
 	/**
 	 * Initialiseert het nieuwe object met de gegeven uren en minuten.
 	 * 
-	 * @pre | 0 <= initialHours && initialHours <= 23
-	 * @pre | 0 <= initialMinutes && initialMinutes <= 59
+	 * @throws IllegalArgumentException | !(0 <= initialHours && initialHours <= 23)
+	 * @throws IllegalArgumentException | !(0 <= initialMinutes && initialMinutes <= 59)
 	 * 
 	 * @post | getHours() == initialHours
 	 * @post | getMinutes() == initialMinutes
 	 */
-	public TimeOfDay(int initialHours, int initialMinutes) { 
+	public TimeOfDay(int initialHours, int initialMinutes) {
+		if (initialHours < 0)
+			throw new IllegalArgumentException("`initialHours` is less than zero");
+		if (initialHours > 23)
+			throw new IllegalArgumentException("`initialHours` is greater than 59");
+		if (initialMinutes < 0 || 59 < initialMinutes)
+			throw new IllegalArgumentException("`initialMinutes` is out of range");
+		
 		minutesSinceMidnight = initialHours * 60 + initialMinutes;
 	}
 	
 	/**
 	 * Stelt de uren van dit object in op de gegeven uren.
 	 * 
-	 * @pre | 0 <= newHours && newHours <= 23
+	 * @throws IllegalArgumentException | !(0 <= newHours && newHours <= 23)
 	 * 
 	 * @mutates | this
 	 * 
 	 * @post | getHours() == newHours
 	 * @post | getMinutes() == old(getMinutes())
 	 */
-	public void setHours(int newHours) { minutesSinceMidnight = newHours * 60 + getMinutes(); }
+	public void setHours(int newHours) {
+		if (newHours < 0)
+			throw new IllegalArgumentException("`newHours` is less than 0");
+		if (23 < newHours)
+			throw new IllegalArgumentException("`newHours` is greater than 23");
+		
+		minutesSinceMidnight = newHours * 60 + getMinutes();
+	}
 	
 	public void setMinutes(int newMinutes) {
 		minutesSinceMidnight -= getMinutes();
